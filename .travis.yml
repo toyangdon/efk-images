@@ -7,9 +7,8 @@ services:
   - docker
 before_install:
   - docker login -u "$DOCKER_USERNAME" -p $DOCKER_PASSWORD
-  - sudo apt-get -y install git
   - git clone https://github.com/kubernetes/kubernetes.git --depth=1
-  - git clone https://github.com/toyangdon/docker-elk-arm64.git --depth-1
+  - git clone https://github.com/toyangdon/docker-elk-arm64.git --depth=1
 script: 
   - export pwd=$PWD && echo $PWD
   - cd $PWD/kubernetes/cluster/addons/fluentd-elasticsearch/es-image
