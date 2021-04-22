@@ -5,10 +5,20 @@ os:
   - linux
 services:
   - docker
-branches:
-  only:
-    - master
 before_install:
   - docker login -u "$DOCKER_USERNAME" -p $DOCKER_PASSWORD
+  - sudo apt-get -y install git
+  - git clone https://github.com/kubernetes/kubernetes.git --depth=1
+  - git clone https://github.com/toyangdon/docker-elk-arm64.git --depth-1
 script: 
   - export pwd=$PWD && echo $PWD
+  - cd $PWD/kubernetes/cluster/addons/fluentd-elasticsearch/es-image
+  - sed -i 's/elasticsearch-oss:7.4.2/elasticsearch-oss:7.10.2/g' Dockerfile
+  - docker build -t toyangdon/es-image-arm:7.10.2 .
+  - docker push toyangdon/es-image-arm:7.10.2
+  - cd $PWD/kubernetes/cluster/addons/fluentd-elasticsearch/fluentd-es-image
+  - docker build -t toyangdon/fluentd-es-image-arm:1.12.0 .
+  - docker push toyangdon/fluentd-es-image-arm:1.12.0
+  - cd $PWD/docker-elk-arm64/kibana
+  - docker build -t toyangdon/kibana-arm:7.10.2 .
+  - docker push toyangdon/kibana-arm:7.10.2
