@@ -13,7 +13,7 @@ script:
   - export pwd=$PWD && echo $PWD
   - cd $pwd/kubernetes/cluster/addons/fluentd-elasticsearch/es-image
   - sed -i 's/elasticsearch-oss:7.4.2/elasticsearch-oss:7.10.2/g' Dockerfile
-  - sed -i 's/GO111MODULE=on/& go mod download k8s.io\/apiextensions-apiserver \&\&/g' Dockerfile
+  - sed -i 's/GO111MODULE=on/& go mod download \&\&/g' Dockerfile
   - docker build -t toyangdon/es-image-arm:7.10.2 .
   - docker push toyangdon/es-image-arm:7.10.2
   - cd $pwd/kubernetes/cluster/addons/fluentd-elasticsearch/fluentd-es-image
